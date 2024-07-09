@@ -1,0 +1,39 @@
+1. Create a file "text1".
+  • touch text1
+2. Fill this file in with text with at least a couple of lines of text.
+  • nano text1
+  • **Filled with the following words:
+  • This
+  • Is
+  • a
+  • filler
+3. Close the file.
+  • ^x (To exit the file)
+4. Browse the file. Look at the beginning of the file; look at the end.
+  • cat text1
+5. Copy the file "text1" to a new file.
+  • cp text1 text2
+6. Change the name of the old file.
+  • mv text1 TEXT1.1
+7. How do you know it's there (what commands could you use to find out?)
+  • ls
+8. What command(s) will show its permissions?
+  • ls -l TEXT1.1
+9. What command(s) will show how big it is?
+  • ls -l TEXT1.1
+10. What command(s) will show how many lines are in it?
+  • wc -l TEXT1.1
+11. Change the permissions on the file so that everyone can read it, and no one (not even the owner)
+can write it.
+  • chmod 444 TEXT1.1
+12. Make a new file using the "echo" command.
+  • Echo “single line” > TEXT1.2
+13. Make the file you just made executable (but not writable) by everybody.
+  • chmod 555 TEXT1.2
+14. Try to change the owner to someone else: for instance, make "Isaacs" the owner. (It should fail --
+you can only change owner if you are the superuser.)
+Change the permissions of the file.
+Delete the file (use "rm" command.)
+  • chown isaacs TEXT1.2
+  • chmod 755 TEXT1.2
+  • rm TEXT1.2
