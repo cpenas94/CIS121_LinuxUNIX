@@ -1,0 +1,125 @@
+#!/bin/bash
+
+# Henry Penas
+# 12/15/2023
+
+# Default phonebook file
+filename="./phones.txt"
+
+# Function to check if a file is readable
+check_readable() {
+    if [ -r "$1" ]; then
+        return 0  # File is readable
+    else
+        echo "Error: File '$1' is not readable."
+        return 1  # File is not readable
+    fi
+}
+
+# Function to check if a file is writable
+check_writable() {
+    if [ -w "$1" ]; then
+        return 0  # File is writable
+    else
+        echo "Error: File '$1' is not writable."
+        return 1  # File is not writable
+    fi
+}
+
+# Function to list the phonebook file
+list_phonebook() {
+    sort -k2 "$1"
+}
+
+# Function to add a name to the phonebook
+add_name() {
+    read -p "Enter the new name: " new_name
+    read -p "Enter the phone number: " new_phone
+    read -p "Enter the email address: " new_email
+
+    echo "$new_name:$new_phone:$new_email" >> "$1"
+    echo "Entry added successfully."
+}
+
+# Function to delete a name from the phonebook
+delete_name() {
+    read -p "Enter the name to delete: " delete_name
+    sed -i "/^$delete_name:/d" "$1"
+    echo "Entry deleted successfully."
+}
+
+# Function to change someone's number, email, or name in the phonebook
+change_entry() {
+    read -p "Enter the name to change: " old_name
+    read -p "Enter the new phone number: " new_phone
+    read -p "Enter the new email address: " new_email
+
+    sed -i "s/^$old_name:.*/$old_name:$new_phone:$new_email/" "$1"
+    echo "Entry changed successfully."
+}
+
+# Check if the default file is readable
+if check_readable "$filename"; then
+    # Display default phonebook
+    list_phonebook "$filename"
+else
+    echo "File does not exist or is not readable."
+    
+    # Prompt user for a different file name
+    read -p 'Enter a different file name: ' newfilename
+    
+    # Check if the new file is writable
+    if check_writable "$newfilename"; then
+        # Create the new file and add a sample entry
+        echo "New:Name:111-111-1111:example@my.smccd.edu" >> "$newfilename"
+        
+        # Display the new phonebook
+        list_phonebook "$newfilename"
+    else
+        echo "Cannot create or write to the specified file. Exiting."
+        exit 1
+    fi
+fi
+
+# Ask the user if they want to perform any operations
+read -p "Do you want to see all possible operations (yes/no): " additional_operations
+
+if [ "$additional_operations" = "yes" ]; then
+    echo "Select an operation:"
+    echo "1. Add a new entry"
+    echo "2. Delete a name"
+    echo "3. Change someone's number, email, or name"
+    
+    read -p "Enter the operation number: " operation_number
+    
+    case $operation_number in
+        1)  # Add a new entry
+            if check_writable "$filename"; then
+                add_name "$filename"
+                list_phonebook "$filename"
+            else
+                echo "Cannot add a new entry. File is not writable."
+            fi
+            ;;
+        2)  # Delete a name
+            if check_writable "$filename"; then
+                delete_name "$filename"
+                list_phonebook "$filename"
+            else
+                echo "Cannot delete a name. File is not writable."
+            fi
+            ;;
+        3)  # Change someone's number, email, or name
+            if check_writable "$filename"; then
+                change_entry "$filename"
+                list_phonebook "$filename"
+            else
+                echo "Cannot change an entry. File is not writable."
+            fi
+            ;;
+        *)  # Invalid operation number
+            echo "Invalid operation number. Exiting."
+            exit 1
+            ;;
+    esac
+fi

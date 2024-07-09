@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Check if the number of parameters is at least 1
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <num1> [num2 num3 ...]"
+    exit 1
+fi
+
+# Set the first parameter as the initial maximum
+max=$1
+
+# Loop through the remaining parameters
+for num in "$@"; do
+    # Compare the current number with the maximum
+    if [ "$num" -gt "$max" ]; then
+        max=$num
+    fi
+done
+
+echo "The largest number is: $max"

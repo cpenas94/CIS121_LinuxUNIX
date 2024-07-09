@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Check if a directory is provided as a parameter, otherwise use the current directory
+directory=${1:-$(pwd)}
+
+# Check if the provided directory is readable
+if [ ! -r "$directory" ]; then
+    echo "Error: Cannot read directory '$directory'."
+    exit 1
+fi
+
+echo "Report for files in directory: $directory"
+echo "----------------------------------"
+
+# Counters for different file types
+regular_files=0
+directories=0
+other_files=0
+
+# Loop through the files in the directory
+for file in "$directory"/*; do
+    if [ -f "$file" ]; then
+        # Regular file
+        ((regular_files++))
+        permissions=$(stat -c "%A" "$file")
+        echo "Regular File: $file (Permissions: $permissions)"
+    elif [ -d "$file" ]; then
+        # Directory
+        ((directories++))
+        permissions=$(stat -c "%A" "$file")
+        echo "Directory: $file (Permissions: $permissions)"
+    else
+        # Other type of file
+        ((other_files++))
+        permissions=$(stat -c "%A" "$file")
+        echo "Other File Type: $file (Permissions: $permissions)"
+    fi
+done
+
+# Display the summary
+echo -e "\nSummary:"
+echo "Regular Files: $regular_files"
+echo "Directories: $directories"
+echo "Other Files: $other_files"
