@@ -1,0 +1,61 @@
+Lab 3: Files and Directories
+1. Make sure you are in your home directory.
+cd
+2. Make a directory "class".
+mkdir class
+3. Confirm this directory exists now.
+ls -d class
+4. Copy the file "friends" (that you just created or found) to a new file in the "class"
+subdirectory.
+cp friends class/
+5. Go to that subdirectory (class).
+Cd class
+6. Confirm that the file exists.
+ls friends
+7. Rename that file to "friends2".
+mv friends friends2
+8. While still in "class", copy who_report from your home directory to class.
+cp ~/who_report .
+9. Go back to your home directory.
+cd
+10. Move several files from here to the subdirectory class.
+mv king kong kang class/
+11. Move all the files in class back to the parent directory.
+mv class/*
+12. Create a new file in your directory (your choice of names), containing: - your real name -
+your account name - when your ".bash_profile" file was last modified - how long the file
+"/etc/passwd" file is - the permissions of the "friends" file (Can you do this without actually
+typing all the information, by just redirecting the output of various commands?)
+finger > lab3
+who am I >> lab3
+ls -l .profile >> lab3
+wc /etc/passwd >> lab3
+ls -l friends >> lab3
+13. Print the file you just created, with page number and date. (Since you can't actually print
+from newton right now, just save the output.)
+pr lab3
+14. Make a copy of the file you created, but call the copy "foobar".
+cp lab3 foobar
+15. Make a new file and put all the commands you ran in #12 in it. That is, in the file put the
+commands that would create another new file (different name from what you used in #12)
+with the same information in it.
+finger > lab3.1
+who am I >> lab3.1
+ls -l .profile >> lab3.1
+wc /etc/passwd >> lab3.1
+ls -l friends >> lab3.1
+16. Change the permissions of the new file you just made (in #15) so anyone can write it, and
+anyone in your group (but no one else) can execute it. Notice that means you can't execute it.
+Also make sure it is readable by everybody.
+Chmod 676 lab3.1
+17. Now try to execute the new file, by typing "./" in front of the file name. It should fail (if
+you set the permissions as instructed). So try by typing:
+bash <filename> (where "filename" is the name you gave it)
+bash lab3.1
+Put the name of the file you created as part of the commands in number 19, that you turn in.
+18. Look at the first few lines of your files, using wild cards ('*', '?'). (Don't forget a pager, if
+you have a lot of output.) Then save those lines in a new file, and try to print it. (Notice
+whether the first lines of the new file you just created are in the listing.) Make sure you only
+print 2 or 3 lines from each file! (You may have to send the file to your local computer to
+print, it can't be printed directly from the server.)
+head -3 * > lab3_18
