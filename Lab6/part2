@@ -1,0 +1,9 @@
+#!/bin/bash
+#Henry Penas
+
+# Display header
+echo "File System Layout:"
+echo "---------------------"
+
+# Use df command to get information about disk space
+df -h | awk 'NR==1; NR>1{print $6, $2, $3, $4}' | column -t

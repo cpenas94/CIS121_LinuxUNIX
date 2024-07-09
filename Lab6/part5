@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Check if the user provided a directory as an argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+directory="$1"
+
+# Check if the directory exists
+if [ ! -d "$directory" ]; then
+    echo "Error: Directory '$directory' does not exist."
+    exit 1
+fi
+
+# Find regular files in the directory and get their sizes
+find "$directory" -type f -exec du -h {} + | sort -rh | head -n 10

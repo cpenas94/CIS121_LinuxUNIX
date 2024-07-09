@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Function to display script usage
+display_usage() {
+    echo "Usage: $0 SOURCE_DIR DESTINATION_DIR"
+    echo "Copy a directory and its subdirectories using cpio."
+    echo "Preserves owner, permissions, and creation date attributes."
+    exit 1
+}
+
+# Check the number of arguments
+if [ "$#" -ne 2 ]; then
+    display_usage
+fi
+
+source_dir="$1"
+destination_dir="$2"
+
+# Validate source directory
+if [ ! -d "$source_dir" ]; then
+    echo "Error: Source directory '$source_dir' does not exist."
+    exit 1
+fi
+
+# Create destination directory if it doesn't exist
+mkdir -p "$destination_dir"
+
+# Copy directory using cpio
+find "$source_dir" -depth | cpio -pdm "$destination_dir"

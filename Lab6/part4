@@ -1,0 +1,6 @@
+#!/bin/bash
+
+login_daemon=$(ssh henrychrispenas@newton-csm 'ps -u -o pid,ppid,user,cmd | grep "root.*sshd" | tail -n 1')
+
+echo "The daemon handling my login on newton-csm:"
+echo "$login_daemon"

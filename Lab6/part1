@@ -1,0 +1,61 @@
+#!/bin/bash
+
+#Henry Penas
+
+
+# Default values
+directory="/tmp"
+old_threshold_days=30
+size_threshold_mb=1
+
+# Function to display script usage
+display_usage() {
+    echo "Usage: $0 [OPTIONS]"
+    echo "Find old, unused files larger than a specified size in a directory."
+    echo
+    echo "Options:"
+    echo "  -d, --directory DIR   Specify the starting directory (default: /tmp)"
+    echo "  -o, --old DAYS        Set the threshold for considering a file as old (default: 30 days)"
+    echo "  -s, --size SIZE       Set the minimum file size in megabytes (default: 1 MB)"
+    echo "  -h, --help            Display this help message"
+    exit 1
+}
+
+# Command-line options
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -d|--directory)
+            directory="$2"
+            shift
+            ;;
+        -o|--old)
+            old_threshold_days="$2"
+            shift
+            ;;
+        -s|--size)
+            size_threshold_mb="$2"
+            shift
+            ;;
+        -h|--help)
+            display_usage
+            ;;
+        *)
+            echo "Error: Unknown option '$1'."
+            display_usage
+            ;;
+    esac
+    shift
+done
+
+# Validate directory existence
+if [ ! -d "$directory" ]; then
+    echo "Error: Directory '$directory' does not exist."
+    exit 1
+fi
+
+echo "Finding old, unused files in directory: $directory"
+echo "Old Threshold: $old_threshold_days days | Size Threshold: $size_threshold_mb MB"
+echo "---------------------------------------------------------------------"
+
+# Use find command to locate old, unused files
+find "$directory" -type f -atime +$old_threshold_days -size +${size_threshold_mb}M -exec ls -lh {} \;
